@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+</html>
+<!--
+	外键条件
+		1.外键要存在，首先必须保证表的存储引擎是innodb(默认的存储引擎)，如果不是innodb，外键可以创建成功，但是没有约束效果
+		2.外键字段的字段类型，必须要与父表的主键类型完全一致
+		3.一张表中的外键名字不能重复
+		4.增加外键的字段(数据已经存在)，必须保证数据与父表主键要求对应
+	外键
+		定义：如果一张表中有一个字段(非主键)指向另一个表的主键，那么该字段称之为外键
+		外键可以在创建表的时候或者创建表之后增加(但是要考虑数据的问题)
+		创建表的时候增加外键：
+			在所有的字段之后，使用foreign key(外键字段) references 父表(字段)
+		外键要求自身本身是一个索引
+	外键（foreign key）不可修改，只能先删除后新增，一张表可以有多个外键
+	外键的作用
+		外键默认的作用有两点：一个对父表，一个对字表(外键字段所在的表)
+		对子表的约束：子表数据进行写操作(增和改)的时候，如果对应的外键字段在父表找不到对应的匹配，那么操作会失败(约束子表的数据操作)
+		对父表的约束：父表数据进行写操作(删和改都必须涉及到主键本身)，如果对应的主键在子表中已经被数据所引用，那么就不允许操作
+	外键约束
+		外键约束有三种约束模式，都是正对父表的约束
+			district	严格模式(默认的)：父表不能删除或者更新一个已经被子表数据应用的记录
+			cascade		级联模式：父表的操作对应子表关联的数据也跟着被删除
+			setnull		置空模式：父表的操作之后，子表对应的数据（外键字段）被置空
+		通常的一个合理的做法(约束模式)，删除的时候子表置空，更新的时候子表级联操作
+		指定模式的语法：
+			foreign key(外键字段) references 父表(主键字段) on delete set null on update cascade
+			先创建父表
+				例如：
+				create table student(
+					id int primary key auto_increment not null,
+					name varchar(10) not null
+				)engine = innodb charset = utf8;
+			在创建子表
+				create table mark(
+					id int primary key auto_increment not null,
+					score int,
+					s_id int not null,
+					foreign key(s_id)
+					references student(id)
+					on delete cascade
+					on update cascade
+				)engine = innodb charset = utf8;
+-->

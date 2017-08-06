@@ -1,0 +1,53 @@
+中文数据问题
+	查看所有的字符集
+		show character set;
+	查看服务器默认的对外处理的字符集
+		show variables like 'character_set%';
+	查看数据库字符集
+		show variables like 'character_set_database';
+校对集
+	数据比较的方式
+	校对集有三种格式
+		_bin:binary,二进制比较，取出二进制位，一位一位的比较，区分大小写
+		_cs:case sensitive,大小写敏感，区分大小写
+		_ci:case insensitice,大小写不敏感，不区分大小写
+	查看数据库支持所有的校对集：
+		show collation;
+数据类型
+	所谓的数据类型就是对数据进行统一的分类
+	sql中将数据类型分为了三类：数值类型，字符串类型和时间类型
+	数值型
+		整数型
+			存放整形数据，整形又分为五类
+				Tinyint:迷你整形，使用1个字节存储，表示的状态最多是256种
+				samllint:小整形，使用2个字节存储，表示的状态最多是65536种
+				Mediumint:中整形，使用3个字节存储
+				int:标准整形，使用4个字节存储
+				bigint:大整形，使用8个字节存储
+			测试
+				创建一张整形的表
+					create table my_iny(
+						int_1 tinyint,
+						int_2 smallint,
+						int_3 int,
+						int_4 bigint
+					)charset utf8;
+				插入整形数据
+					insert into my_iny values(100,100,100,100);	--有效数据
+					insert into my_iny values("a","b","c","d");	--无效数据
+					insert into my_iny values("255","10000","100000","1000000");	--错误，超出范围
+				sql中的数值类型全部都是默认有符号的：分正负
+					有时候需要使用无符号数据，需要给数据类型限定：int unsigned;--无符号从0开始
+				给表增加无符号类型
+					alter table my_iny add_5 tinyint unsigned;--无符号类型
+				数据类型后括号里面都是指定的数字表示含义
+					显示宽度：数据最终显示的位数，如：-123是4位显示宽度(包含符号)，255是3位宽度
+				显示宽度
+					没有特别的含义，只是默认的告诉用户可以显示的形式而已：实际上用户是可以控制的，这种控制不会改变数据本身的大小
+					意义：
+						在于当数据不够显示宽度的时候，会自动让数据变成对应的显示宽度，通常需要一个前导0来增加显示宽度，不改变值的大小，zerofill(0填充)
+						alter table my_iny add int_5 tinyint(2) zerofill;
+						insert into my_iny values(127,0,0,0,1);
+						注意：0填充会导致数据自动无符号
+		小数型
+	

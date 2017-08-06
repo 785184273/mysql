@@ -1,0 +1,54 @@
+数据库分类
+	关系型数据库(sql)
+		安全(保存磁盘基本上不可能丢失)，容易理解，比较浪费空间(二维表)
+	非关系型数据库
+		效率高，不安全
+	退出mysql
+		\q	exit quit
+	sql注释:
+		单行注释：--双中划线，或#
+	sql报错
+		只会告诉用户报错的大概位置，不会告诉用户报错的原因
+sql基本操作
+	数据库操作
+		增加数据库:create databases test(数据库名字test) [库选项];
+			库选项：用来约束数据库，分为两个选项
+			字符集设定：charset/character set 具体字符集
+			校对集设定：collate 具体校对集
+			注意	:数据库名字不能使用关键字/保留字，如果非要使用必须加上``(反引号)
+			创建中文数据库
+				首先要告诉服务器当前中文的字符集是什么
+				set names gbk;
+				create database 中国  charset utf8;
+			当创建数据库的sql语句执行之后，发生了什么？
+				1.在数据库系统中，增加了对应的数据库信息
+				2.会在保存数据的文件夹(Data目录)下，创建一个对应数据库名字的文件夹
+				3.每个数据库问价下都有一个db.opt文件
+					存在字符集和校对集(校对集依赖字符集)
+		更新数据库
+			数据库名字不可以修改
+			数据库的修改仅限库选项
+				alter database 数据库名字 [库选项]
+					charset/character set [=] 字符集
+					collate 校对集
+		删除数据库：
+			drop database 数据库名
+		查看数据库的编码格式
+			show variables like 'character_set_database';
+		查看所有数据库
+			show databases;
+		查看个别数据库
+			show databases like 'pattern'	--pattern是匹配模式
+		查看数据库的创建语句
+			show create database 数据库名字
+	数据表的操作
+		create table [if not exists] 表名(
+			字段名字	数据类型,
+			......
+			字段名字	数据类型	--最后一行不需要逗号
+		)[表选项];
+			if not exists :如果表名不存在就创建该表
+			表选项：控制表的表现
+				字符集：charset/character set具体字符集;	--保证表中数据存储的字符集
+				校对集：collate	具体校对集
+				存储引擎：engine	具体的引擎有(innodb和myisam)
